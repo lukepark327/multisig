@@ -15,15 +15,13 @@ async function main() {
   console.log(`Signer 2: ${wallets[2].address}`);
   console.log(`Signer 3: ${wallets[3].address}`);
 
-  const msg = "Hello, World";
+  // const msg = "Hello, World";
+  const msg = Math.random().toString(36).substring(2, 12);
   let signs = [];
 
   for (let i = 0; i < 4; i++) {
     signs.push(await wallets[i].signMessage(msg));
-    //     console.log(
-    //       `- Message: "${msg}"
-    // - Sign: ${sign}`
-    //     );
+    console.log(`- Sign: ${signs[i]}`);
   }
   for (let i = 0; i < 4; i++) {
     const verified = hre.ethers.verifyMessage(msg, signs[i]);
