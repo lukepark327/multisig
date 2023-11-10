@@ -1,5 +1,8 @@
 require("@nomicfoundation/hardhat-toolbox");
 
+require('hardhat-contract-sizer');
+require("hardhat-gas-reporter");
+
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
   solidity: {
@@ -15,6 +18,7 @@ module.exports = {
       }
     ],
   },
+
   defaultNetwork: 'localhost',
   networks: {
     hardhat: {
@@ -42,5 +46,18 @@ module.exports = {
       gasPrice: 111000000000,
       gasLimit: 100000000,
     },
+  },
+
+  gasReporter: {
+    enabled: true,
+    // outputFile: './gasReport',
+  },
+  contractSizer: {
+    runOnCompile: true,
+    // outputFile: './contractSize',
+  },
+
+  mocha: {
+    timeout: 100000000
   },
 };

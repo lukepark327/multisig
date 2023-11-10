@@ -32,6 +32,10 @@ contract Multisig {
         uint256 wins;
         for (uint256 i = 0; i < len; ) {
             // TODO(@lukepark327): skip array range check.
+            // address _signer;
+            // assembly {
+            //     _signer := mload(add(add(signers, 0x20), mul(i, 0x20)))
+            // }
 
             (address signer, ECDSA.RecoverError err, ) = ECDSA.tryRecover(
                 digest,
@@ -39,6 +43,9 @@ contract Multisig {
             );
             if (signer == signers[i] && err == ECDSA.RecoverError.NoError) {
                 ++wins;
+                if (wins >= M) {
+                    return true;
+                }
             }
 
             unchecked {
@@ -47,5 +54,15 @@ contract Multisig {
         }
 
         return wins >= M;
+    }
+
+    // test purpose
+    function multisig(
+        bytes32 digest,
+        bytes[] calldata signatures,
+        address[] calldata signers,
+        uint256 M
+    ) external returns (bool) {
+        return multisigMofN(digest, signatures, signers, M);
     }
 }
