@@ -1,10 +1,10 @@
-const hre = require("hardhat");
+const hre = require("hardhat"); // v5
 
 async function main() {
-  const multisig = await hre.ethers.deployContract("Multisig", []);
-  await multisig.waitForDeployment();
+  const Multisig = await hre.ethers.getContractFactory("Multisig");
+  const multisig = await Multisig.deploy();
   console.log(
-    `Multisig: ${await multisig.getAddress()}`
+    `Multisig: ${await multisig.address}`
   );
 
   // Sign
@@ -24,13 +24,13 @@ async function main() {
     console.log(`- Sign: ${signs[i]}`);
   }
   for (let i = 0; i < 4; i++) {
-    const verified = hre.ethers.verifyMessage(msg, signs[i]);
+    const verified = hre.ethers.utils.verifyMessage(msg, signs[i]);
     console.log(`Verified: ${verified}`);
   }
 
   // Contract
 
-  const digest = hre.ethers.hashMessage(msg);
+  const digest = hre.ethers.utils.hashMessage(msg);
   const res = await multisig.connect(wallets[0]).multisigMofN(
     digest,
     signs,
