@@ -1,0 +1,4 @@
+[submodule "evmbls"]
+	path = evmbls
+	url = https://github.com/kilic/evmbls.git
+	branch = master
